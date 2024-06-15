@@ -50,7 +50,7 @@ namespace API.Apps.AdminApi.Controllers
         }
 
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public IActionResult Update(int id, Brand brand)
         {
             var existData = _context.Brands.Find(id);
@@ -65,7 +65,20 @@ namespace API.Apps.AdminApi.Controllers
             }
 
             existData.Name=brand.Name;
+            _context.SaveChanges();
             return NoContent();
+        }
+
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var data = _context.Brands.Find(id);
+            if (data==null) return NotFound();
+            _context.Brands.Remove(data);
+            _context.SaveChanges();
+            return NoContent();
+
         }
     }
 }
